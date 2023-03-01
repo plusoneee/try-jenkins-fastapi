@@ -1,8 +1,7 @@
 pipeline {
-    agent { dockerfile true }
+    agent any
         
     stages {
-        
         stage("Env Build Number"){
             steps{
                 echo "The build number is ${env.BUILD_NUMBER}"
@@ -19,7 +18,7 @@ pipeline {
             
             }
         }
-        
+
         stage('Build Project') {
             steps {
                 echo "build project in this stage"
