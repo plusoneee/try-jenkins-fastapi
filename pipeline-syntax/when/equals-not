@@ -9,7 +9,9 @@ pipeline {
         stage('build') {
 
             when {
-                equals expected: 'dev', actual: DEPLOY_TO
+                not {
+                     equals expected: 'dev', actual: DEPLOY_TO
+                }
             }
 
             steps {    
