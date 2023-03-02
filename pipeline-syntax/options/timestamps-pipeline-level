@@ -1,0 +1,23 @@
+
+pipeline {
+    agent any
+    stages {
+        stage('build') {
+            options {
+                timestamps() // requires Timestamper plugin: https://plugins.jenkins.io/timestamper/
+            }
+            steps {
+                echo 'hello world in build'
+            }
+            
+        }
+        stage('test') {
+           
+            steps {
+                echo 'hello world in test'
+            }
+        }
+    }
+}
+
+

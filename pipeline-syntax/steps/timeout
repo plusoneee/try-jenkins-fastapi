@@ -1,0 +1,16 @@
+pipeline {
+    agent any
+    
+    stages {
+        stage('build') {
+            steps {
+                // timeout unit:  DAYS, HOURS, MILLISECONDS, MINUTES, .. 
+                timeout(time: 1, unit: 'SECONDS') 
+                {
+                    echo 'SLEEP IN TIMEOUT'
+                    sleep 2
+                }
+            }
+        }
+    }
+}

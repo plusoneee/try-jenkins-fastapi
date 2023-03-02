@@ -1,0 +1,19 @@
+pipeline {
+    agent any
+    
+    stages {
+        stage('build') {
+            steps {
+                retry(3){
+                    timeout(time: 1, unit: 'SECONDS') 
+                    {
+                        echo 'SLEEP IN TIMEOUT'
+                        sleep 2
+                    }
+                }
+                echo 'After timeout'
+                
+            }
+        }
+    }
+}
