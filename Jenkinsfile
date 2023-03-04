@@ -7,12 +7,11 @@ pipeline {
                 echo "The build number is ${env.BUILD_NUMBER}"
             }
         }
-        
         stage('Pull Code') {
             steps {
                 git (
                     branch: 'main', 
-                    credentialsId: '5436d64a-fd4e-49b1-8257-99a31a924b63', 
+                    credentialsId: 'plusoneee-github-auth-password', 
                     url: 'https://github.com/plusoneee/try-jenkins-fastapi.git'
                 )
             
@@ -22,6 +21,8 @@ pipeline {
         stage('Build Project') {
             steps {
                 echo "build project in this stage"
+                sh 'docker build -t my-api:v1 .'
+                sh 'docker run -itd my-api:v1 bash'
             }
         }
     }
