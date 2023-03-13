@@ -1,0 +1,16 @@
+pipeline {
+    agent any
+    
+    stages {
+        stage('build') {
+
+            options {
+                timeout(time: 1, unit: 'SECONDS')
+            }
+            steps {
+                echo 'Hello World'
+                sleep 2
+            }
+        }
+    }
+}

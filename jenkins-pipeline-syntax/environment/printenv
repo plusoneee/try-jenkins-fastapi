@@ -1,0 +1,19 @@
+pipeline {
+    agent any
+    
+    environment {
+        first_name = "Joy"
+        last_name = "Liao"
+    }
+
+    stages {
+        stage('build') {
+            environment {
+                nickname = "91"
+            }
+            steps {
+                sh "printenv"
+            }
+        }
+    }
+}

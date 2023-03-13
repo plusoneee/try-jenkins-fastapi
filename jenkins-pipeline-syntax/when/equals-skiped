@@ -1,0 +1,20 @@
+pipeline {
+    agent any
+
+    environment {
+        DEPLOY_TO = 'production'
+    }
+
+    stages {
+        stage('build') {
+
+            when {
+                equals expected: 'dev', actual: DEPLOY_TO
+            }
+
+            steps {    
+                echo 'DEPLOY TO Production'
+            }
+        }
+    }
+}

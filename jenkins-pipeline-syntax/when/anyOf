@@ -1,0 +1,36 @@
+pipeline {
+    agent any
+
+    environment {
+        DEPLOY_TO = "production"
+        VERSION = "1.0"
+    }
+
+    stages {
+        stage('build01') {
+            when {
+
+                allOf {
+                    environment name: "DEPLOY_TO", value: "production"
+                    environment name: "VERSION", value: "1.0"
+                }
+            }
+            steps {    
+                echo "DEPLOY TO ${DEPLOY_TO} on ${VERSION}"
+            }
+        }
+
+        stage('build 02') {
+            when {
+
+                anyOf {
+                    environment name: "DEPLOY_TO", value: "production"
+                    environment name: "VERSION", value: "2.0"
+                }
+            }
+            steps {    
+                echo "DEPLOY TO ${DEPLOY_TO} on ${VERSION}"
+            }
+        }
+    }
+}
