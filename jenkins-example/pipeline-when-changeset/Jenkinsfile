@@ -20,29 +20,33 @@ pipeline {
             }
 
         }
-        
-        stage('Build 01 API') {
-            
-            when{
-                changeset pattern: "**/pipeline-when-changeset/changed 01/*.py", caseSensitive: true
-            }
-            
-            steps {
-                echo 'Build 01/*.py'
-            }
-            
-        }
 
-        stage('Build 02 API') {
-            
-            when{
-                changeset pattern: "**/pipeline-when-changeset/changed 02/*.py", caseSensitive: true
+        stage('Build in Parallel') {
+            parallel {
+                stage('Build 01 API') {
+                
+                    when{
+                        changeset pattern: "**/pipeline-when-changeset/changed 01/*.py", caseSensitive: true
+                    }
+                    
+                    steps {
+                        echo 'Build 01/*.py'
+                    }
+                
+                }
+
+                stage('Build 02 API') {
+                    
+                    when{
+                        changeset pattern: "**/pipeline-when-changeset/changed 02/*.py", caseSensitive: true
+                    }
+                    
+                    steps {
+                        echo 'Build 02/*.py'
+                    }
+                    
+                }
             }
-            
-            steps {
-                echo 'Build 02/*.py'
-            }
-            
         }
         
     }
