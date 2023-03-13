@@ -2,35 +2,66 @@ pipeline {
     agent any
 
     stages {
-        stage('Hello') {
-            steps {
-                echo 'Hello World'
-            }
-        }
         
         stage('Pull Code') {
             steps {
                 git (
                     branch: 'main', 
-                    credentialsId: 'plusoneee-github-auth-password', 
                     url: 'https://github.com/plusoneee/try-jenkins-fastapi.git'
                 )
             
             }
         }
+
+        stage('Changed Log') {
+
+            steps {
+                show_changed_log(currentBuild.changeSets)
+            }
+
+        }
         
-        stage('Build') {
+        stage('Build 01 API') {
             
             when{
-                changeset pattern: "**/pipeline-when-changeset/*.py", caseSensitive: true
+                changeset pattern: "**/pipeline-when-changeset/changed 01/*.py", caseSensitive: true
             }
             
             steps {
-                echo 'Hello World changeset py'
+                echo 'Build 01/*.py'
             }
             
+        }
+
+        stage('Build 02 API') {
+            
+            when{
+                changeset pattern: "**/pipeline-when-changeset/changed 02/*.py", caseSensitive: true
+            }
+            
+            steps {
+                echo 'Build 02/*.py'
+            }
             
         }
         
+    }
+}
+
+def show_changed_log(changeSets) {
+    for (int i = 0; i < changeSets.size(); i++) {
+        def entries = changeSets[i].items
+        
+        for (int j = 0; j < entries.length; j++) {
+            def entry = entries[j]
+            echo "${entry.commitId} by ${entry.author} on ${new Date(entry.timestamp)}: ${entry.msg}"
+
+            def files = new ArrayList(entry.affectedFiles)
+            for (int k = 0; k < files.size(); k++) {
+                def file = files[k]
+                echo " ${file.editType.name} ${file.path}"
+            }
+        }
+    
     }
 }
