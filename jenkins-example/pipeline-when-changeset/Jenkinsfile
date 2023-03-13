@@ -1,0 +1,36 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Hello') {
+            steps {
+                echo 'Hello World'
+            }
+        }
+        
+        stage('Pull Code') {
+            steps {
+                git (
+                    branch: 'main', 
+                    credentialsId: 'plusoneee-github-auth-password', 
+                    url: 'https://github.com/plusoneee/try-jenkins-fastapi.git'
+                )
+            
+            }
+        }
+        
+        stage('Build') {
+            
+            when{
+                changeset pattern: "**/pipeline-when-changeset/*.py", caseSensitive: true
+            }
+            
+            steps {
+                echo 'Hello World changeset py'
+            }
+            
+            
+        }
+        
+    }
+}
